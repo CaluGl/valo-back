@@ -2,11 +2,6 @@ import express from "express";
 import fetch from "node-fetch";
 import cors from "cors";
 
-
-const express = require("express");
-const fetch = require("node-fetch");
-const cors = require("cors");
-
 const app = express();
 app.use(cors());
 app.use(express.json());
@@ -28,13 +23,13 @@ Classe-les par degré de similarité. Format : liste numérotée avec le nom de 
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        "Authorization": `Bearer ${process.env.OPENAI_API_KEY}`
+        "Authorization": `Bearer ${process.env.OPENAI_API_KEY}`,
       },
       body: JSON.stringify({
         model: "gpt-3.5-turbo",
         messages: [{ role: "user", content: prompt }],
-        temperature: 0.7
-      })
+        temperature: 0.7,
+      }),
     });
 
     const data = await response.json();
