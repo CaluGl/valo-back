@@ -13,10 +13,17 @@ app.post("/comparables", async (req, res) => {
     return res.status(400).json({ error: "Champ vide." });
   }
 
-  const prompt = `Dans le cadre d’une valorisation d’entreprise, donne-moi une liste de 50 entreprises comparables à : ${input}.
-Assure-toi que les entreprises sélectionnées soient réellement comparables en termes de modèle économique, secteur d’activité,
-type de clientèle, et stade de développement. Ne mélange pas des startups early-stage avec des multinationales si ce n’est pas pertinent.
-Classe-les par degré de similarité. Format : liste numérotée avec le nom de l’entreprise et une courte description.`;
+  const prompt = `Dans le cadre d’une valorisation d’entreprise, donne-moi une liste de 50 entreprises PUBLIQUES (cotées en bourse) comparables à : ${input}.
+Assure-toi que les entreprises sélectionnées soient réellement comparables en termes de modèle économique, secteur d’activité, type de clientèle, et stade de développement. Ne mélange pas des startups early-stage avec des multinationales si ce n’est pas pertinent.
+
+Uniquement des entreprises cotées. Pour chaque entreprise, indique :
+1. Le nom de l’entreprise
+2. Une courte description (1 ligne)
+3. Son multiple d’EBITDA (si disponible), ou une estimation.
+4. Son ticker et sa place de cotation (ex : NASDAQ, Euronext, etc.)
+
+Format : liste numérotée avec ces 4 éléments pour chaque entreprise.`;
+
 
   try {
     const response = await fetch("https://api.openai.com/v1/chat/completions", {
@@ -45,10 +52,9 @@ Classe-les par degré de similarité. Format : liste numérotée avec le nom de 
   }
 });
 
-app.get("/", (req, res) => {
-  res.send("Backend Express opérationnel !");
-});
-
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log(`Serveur lancé sur le port ${PORT}`));
 
+app.get("/", (req, res) => {
+  res.send("Backend Express opérationnel !");
+});
