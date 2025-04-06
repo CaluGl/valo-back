@@ -45,5 +45,10 @@ Classe-les par degré de similarité. Format : liste numérotée avec le nom de 
   }
 });
 
+app.get("/", (req, res) => {
+  res.send("Backend Express opérationnel !");
+});
+
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log(`Serveur lancé sur le port ${PORT}`));
+
